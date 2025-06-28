@@ -1,0 +1,22 @@
+{
+  "name": "artisanfw/doctrine",
+  "description": "A Singleton-based implementation for Doctrine ORM.",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Airam Batista",
+      "email": "airamb@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.3",
+    "doctrine/orm": "^3.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Artisan\\Services\\": "src/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
