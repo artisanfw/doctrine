@@ -29,7 +29,7 @@ $em->persist($user);
 $em->flush();
 ```
 
-## Reading from the Database
+### Reading from the Database
 ```php
 $em = Doctrine::i()->getEntityManager();
 $user = $em->getRepository(User::class)->findOneBy(['email' => 'test@email.com']);
@@ -43,7 +43,10 @@ $user = $em->getRepository(User::class)->findOneBy(['email' => 'test@email.com']
 $rows = Doctrine::i()->query("SELECT * FROM Users WHERE status = ?", ['active']);
 
 // INSERT/UPDATE/DELETE (returns affected row count)
-$affected = Doctrine::i()->query("UPDATE Users SET status = :status WHERE last_login < :date", ['status' => 'active', 'date' => 2024-01-01']);
+$affected = Doctrine::i()->query(
+   "UPDATE Users SET status = :status WHERE last_login < :date", 
+   ['status' => 'inactive', 'date' => '2024-01-01']
+);
 ```
 ### Fetch a Single Row
 ```php
@@ -52,7 +55,7 @@ $user = Doctrine::i()->getOne("SELECT * FROM Users WHERE id = ?", [5]);
 ```
 ### Fetch a Single Scalar Value
 ```php
-$count = Doctrine::i()->getValue("SELECT COUNT(*) FROM Users WHERE status = :status AND created_at > :date", ['status' => 'active', 'date' => '2025-09-15']);
+$count = Doctrine::i()->getValue("SELECT COUNT(*) FROM Users");
 ```
 ### Run a Transaction
 ```php
