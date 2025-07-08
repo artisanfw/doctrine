@@ -3,6 +3,11 @@ A Singleton-based implementation for Doctrine ORM.
 
 This class provides a singleton instance of Doctrine ORM's `EntityManager`, enabling consistent and easy access to ORM functionality throughout the application. It also includes lightweight helpers for raw SQL execution with automatic read/write detection.
 
+## Installation
+```shell
+  composer require artisanfw/doctrine
+```
+
 ## Using the EntityManager (ORM-style)
 
 ### Instantiating the Service
@@ -33,6 +38,16 @@ $em->flush();
 ```php
 $em = Doctrine::i()->getEntityManager();
 $user = $em->getRepository(User::class)->findOneBy(['email' => 'test@email.com']);
+```
+
+## Using the Query Builder
+```php
+$em = Doctrine::i()->getEntityManager();
+$qb = $em->createQueryBuilder();
+$qb->select('u')
+   ->from(User::class, 'u')
+   ->where('u.status = :status')
+   ->setParameter('status', 'active');
 ```
 
 ## Executing Raw SQL
@@ -66,3 +81,4 @@ Doctrine::i()->transactionQuery(function($conn) {
 ```
 
 **Note:** You can use either positional (`?`) or named (`:param`) placeholders in your SQL queries, but do not mix both styles in the same statement.
+
