@@ -48,17 +48,20 @@ class Doctrine
             throw new RuntimeException('Doctrine must be configured using load() before calling getEntityManager().');
         }
 
-        if ($this->entityManager) {
+        if ($this->entityManager && !$paths) {
             return $this->entityManager;
         }
 
-        $paths = array_merge([$this->modelsPath], $paths);
+        $paths = array_unique(array_merge([$this->modelsPath], $paths));
         $config = ORMSetup::createAttributeMetadataConfiguration($paths);
         $connection = DriverManager::getConnection($this->dbSettings, $config);
+        $em = new EntityManager($connection, $config);
 
-        $this->entityManager = new EntityManager($connection, $config);
+        if (!$this->entityManager) {
+            $this->entityManager = $em;
+        }
 
-        return $this->entityManager;
+        return $em;
     }
 
     /**
