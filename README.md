@@ -18,7 +18,10 @@ $dbParams = [
     'dbname' => '',
     'user' => '',
     'password' => '',
-    'models_path' => PROJECT_DIR . '/src/Models',
+    'models_path' => [
+       PROJECT_DIR . '/src/Models'
+    ],
+    
 ];
 
 $doctrine = Doctrine::i()->load($dbParams));

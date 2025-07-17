@@ -11,12 +11,12 @@ use Throwable;
 
 class Doctrine
 {
-    private const string MODELS_PATH_KEY = 'models_path';
+    private const string MODELS_PATH_KEY = 'model_paths';
 
     private static ?self $instance = null;
 
     private array $dbSettings = [];
-    private string $modelsPath = '';
+    private array $modelPaths = [];
     private ?EntityManager $entityManager = null;
 
     private function __construct() {}
@@ -34,7 +34,7 @@ class Doctrine
     public function load(array $dbConf): self
     {
         if (isset($dbConf[self::MODELS_PATH_KEY])) {
-            $this->modelsPath = $dbConf[self::MODELS_PATH_KEY];
+            $this->modelPaths = $dbConf[self::MODELS_PATH_KEY];
             unset($dbConf[self::MODELS_PATH_KEY]);
         }
 
@@ -52,7 +52,7 @@ class Doctrine
             return $this->entityManager;
         }
 
-        $paths = array_unique(array_merge([$this->modelsPath], $paths));
+        $paths = array_unique(array_merge($this->modelPaths, $paths));
         $config = ORMSetup::createAttributeMetadataConfiguration($paths);
         $connection = DriverManager::getConnection($this->dbSettings, $config);
         $em = new EntityManager($connection, $config);
